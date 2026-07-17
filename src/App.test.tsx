@@ -24,13 +24,18 @@ describe('App 能力标签与展示内容一一对应', () => {
       const showingEl = container.querySelector('[data-testid="showing-no"]') as HTMLElement;
       expect(selectedEl?.textContent).toBe(`SELECTED ${no}`);
       expect(showingEl?.textContent).toBe(`SHOWING ${no}`);
-      expect(selectedEl?.textContent).toBe(showingEl?.textContent);
+      // 编号（去掉前缀后的数字）必须一致
+      const selectedNo = selectedEl?.textContent?.replace(/.*\s/, '').trim();
+      const showingNo = showingEl?.textContent?.replace(/.*\s/, '').trim();
+      expect(selectedNo).toBe(no);
+      expect(showingNo).toBe(no);
+      expect(selectedNo).toBe(showingNo);
     });
   });
 
   it('四个标签各点一遍，依次一一对应', () => {
     const { container } = render(<App />);
-    cases.forEach(({ key, label, index, no }) => {
+    cases.forEach(({ key, label, no }) => {
       fireEvent.click(screen.getByTestId(`tab-${key}`));
       const titleEl = container.querySelector('[data-testid="feature-title"]') as HTMLElement;
       expect(titleEl?.textContent).toBe(label);
@@ -38,6 +43,9 @@ describe('App 能力标签与展示内容一一对应', () => {
       const showingEl = container.querySelector('[data-testid="showing-no"]') as HTMLElement;
       expect(selectedEl?.textContent).toBe(`SELECTED ${no}`);
       expect(showingEl?.textContent).toBe(`SHOWING ${no}`);
+      const selectedNo = selectedEl?.textContent?.replace(/.*\s/, '').trim();
+      const showingNo = showingEl?.textContent?.replace(/.*\s/, '').trim();
+      expect(selectedNo).toBe(showingNo);
     });
   });
 });
