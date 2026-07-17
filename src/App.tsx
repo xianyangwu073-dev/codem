@@ -46,8 +46,8 @@ function pad2(n: number): string {
 export default function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // BUG: visibleFeature 的下标被额外 +1，导致点击第 i 个标签却展示第 i+1 个能力。
-  const visibleFeature = features[selectedIndex + 1];
+  // FIX: 下标直接用 selectedIndex，确保点击第 i 个标签展示第 i 个能力内容。
+  const visibleFeature = features[selectedIndex];
 
   return (
     <div style={{ minHeight: '100vh', padding: 24 }}>
