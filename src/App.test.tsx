@@ -49,3 +49,27 @@ describe('App 能力标签与展示内容一一对应', () => {
     });
   });
 });
+
+describe('BUG-04 LIVE RUNS 启动任务计数', () => {
+  it('初始计数为 0', () => {
+    const { container } = render(<App />);
+    const countEl = container.querySelector('[data-testid="live-runs-count"]') as HTMLElement;
+    expect(countEl?.textContent).toBe('0');
+  });
+
+  it('点击一次「启动现场任务」后计数 +1', () => {
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByTestId('start-demo-btn'));
+    const countEl = container.querySelector('[data-testid="live-runs-count"]') as HTMLElement;
+    expect(countEl?.textContent).toBe('1');
+  });
+
+  it('连续点击两次「启动现场任务」后计数为 2（不减少）', () => {
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByTestId('start-demo-btn'));
+    fireEvent.click(screen.getByTestId('start-demo-btn'));
+    const countEl = container.querySelector('[data-testid="live-runs-count"]') as HTMLElement;
+    expect(countEl?.textContent).toBe('2');
+  });
+});
+

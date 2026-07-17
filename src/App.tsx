@@ -49,6 +49,14 @@ export default function App() {
   // FIX: 下标直接用 selectedIndex，确保点击第 i 个标签展示第 i 个能力内容。
   const visibleFeature = features[selectedIndex];
 
+  // BUG-04: LIVE RUNS 计数器。每启动一个任务数字应 +1。
+  const [liveRuns, setLiveRuns] = useState(0);
+
+  const startDemo = () => {
+    // 修复点：缺陷描述说运算符方向写反（原来错误地用了 -1），正确应为 +1。
+    setLiveRuns((prev) => prev + 1);
+  };
+
   return (
     <div style={{ minHeight: '100vh', padding: 24 }}>
       <h1 style={{ marginBottom: 4 }}>CodeM</h1>
@@ -101,6 +109,16 @@ export default function App() {
             {visibleFeature.description}
           </p>
         </section>
+      </div>
+
+      {/* BUG-04: 现场任务启动区块 */}
+      <div style={{ marginTop: 32 }}>
+        <div data-testid="live-runs" style={{ fontFamily: 'monospace', color: '#8b949e', marginBottom: 12 }}>
+          LIVE RUNS: <span data-testid="live-runs-count">{liveRuns}</span>
+        </div>
+        <button onClick={startDemo} data-testid="start-demo-btn" style={{ padding: '10px 16px', cursor: 'pointer', border: '1px solid #30363d', background: '#161b22', color: '#c9d1d9', borderRadius: 6 }}>
+          启动现场任务
+        </button>
       </div>
     </div>
   );
